@@ -1,0 +1,26 @@
+# Run docker-compose build
+# Run docker-compose up
+# Live long and prosper
+
+version: '3.1'
+
+services:
+  webapp:
+          build: .      
+  nginx:
+    container_name: nginx
+    image: vmady/nginx:$BUILD_NUMBER
+    build:
+      context: .
+      dockerfile: .docker/nginx.dockerfile
+    volumes:
+      - ./dist:/usr/share/nginx/html
+    ports:
+      - "3001:8008"
+
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
